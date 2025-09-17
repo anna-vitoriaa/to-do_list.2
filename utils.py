@@ -1,11 +1,12 @@
 from datetime import datetime
 
 def validar_data(data_str):
-    if data_str.upper() == 'HOJE':
-        return datetime.today()
+    formato = "%d/%m/%Y"
+    if data_str.strip().upper() == 'HOJE':
+        return datetime.today().strftime(format= formato)
     
     try:
-        return datetime.strptime(data_str, '%d/%m/%Y')
+        return datetime.strptime(data_str, formato).strftime(formato)
     except(ValueError):
         return None
     

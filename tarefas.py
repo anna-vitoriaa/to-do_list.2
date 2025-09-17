@@ -2,6 +2,7 @@ from datetime import datetime
 from os import system as s
 from datetime import datetime 
 import utils as ut
+import database as db
 
 class Tarefas:
     def __init__(self):
@@ -10,12 +11,11 @@ class Tarefas:
         self.situacao = False
         self.tarefas = []
     
-    def criar_tarefa(self, nome, data):
+    def criar_tarefa(self, nome, data_str):
         try:
-            data = ut.validar_data(data_str= data)
-            if data is not None:
-                tarefa = {'nome': nome, 'data': data, 'sit': self.situacao}
-                self.tarefas.append(tarefa)
+            data_str = ut.validar_data(data_str= data_str)
+            if data_str is not None:
+                db.criar_tarefa_db(nome, data_str)
                 return 'Tarefa criada'
             else: return ("Data inválida")
         except(ValueError):

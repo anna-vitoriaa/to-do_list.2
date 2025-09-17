@@ -10,3 +10,7 @@ crs.execute('''
         situacao INTEGER DEFAULT 0)''')
 
 conn.commit()
+
+def criar_tarefa_db(nome, data_str):
+    crs.execute("INSERT INTO Tarefas (nome, data) VALUES (?, ?)", (nome, data_str))
+    conn.commit()
