@@ -10,13 +10,6 @@ dia_semana = datetime.today().strftime("%a").upper()
 print('='* 5, ' TODO LIST ', '='*5)
 print(datetime.today().strftime('%d/%m/%Y'), "\t", dia_semana)
 
-t.criar_tarefa(nome="ler", data_str= 'hoje')
-t.criar_tarefa(nome="estudar", data_str='hoje')
-t.criar_tarefa(nome="treinar", data_str='hoje')
-t.criar_tarefa(nome= 'trabalhar', data_str='10/09/2025')
-t.criar_tarefa(nome= 'programar', data_str= '10/09/2025')
-t.criar_tarefa(nome= 'inglês', data_str= '11/09/2025')
-
 while True:
     t.mostrar_tarefas()
     op = int(input("\n1\tMarcar\n2\tMenu\n0\tSair\n"))

@@ -9,9 +9,6 @@ class Ui:
     def print_marcar(self):       
         p = int(input('Qual tarefa quer marcar? '))
         id = utils.validar_id(p, db.listar_tarefas_db())
-        print(id)
-        print(db.listar_tarefas_db())
-        print(len(db.listar_tarefas_db()))
         if id is None:
             print('Id inválido')
         else: 
@@ -29,7 +26,6 @@ class Ui:
         try:
             id = utils.validar_id(p, db.listar_tarefas_db())
             if id is not None:
-                print(db.listar_tarefas_db()[id-1]['data'])
                 nome = db.listar_tarefas_db()[id-1]['nome']
                 data = db.listar_tarefas_db()[id-1]['data']
 
@@ -40,6 +36,7 @@ class Ui:
                     else: 
                         nova_data = input("Nova data: ")
                         data = utils.validar_data(nova_data)
+                        print(data)
                         if data == None:
                             print('Formato de data inválido')
                             return
@@ -87,35 +84,33 @@ class Ui:
         while True:
             data = input("Qual dia quer filtrar? (dd/mm/yyyy) ")
             dataf = utils.validar_data(data_str= data)
-            if dataf is not None: break
-        try:
-            print('\n')
-            print("="*23)
-            print('🗓️  Tarefas de ', dataf.strftime('%d/%m/%Y') if dataf.date() != dt.today().date() else 'Hoje')
-            print("="*23)
-    
-            tarefas_dia = [t for t in self.t.tarefas if t['data'].date() == dataf.date()]
-        
+            if dataf is None: print("Data inválida")
+            else: break
 
-            for i, t in enumerate(tarefas_dia):
-                sts = '[x]' if t['sit'] else '[ ]'
-                print(i+1, sts, t['nome'])
-            
-            if not tarefas_dia: 
+        print('\n')
+        print("="*23)
+        formato= '%d/%m/%Y'
+        print('🗓️  Tarefas de ', dataf if dt.strptime(dataf, formato).date() != dt.today().date() else 'Hoje')
+        print("="*23)
+
+        tarefas_dia = [t for t in db.listar_tarefas_db() if t['data'] == dataf]
+        print(dataf)
+
+        if not tarefas_dia: 
                 print("Nenhuma tarefa para este dia")
                 return
+        
+        for i, t in enumerate(tarefas_dia):
+            sts = '[x]' if t['situacao'] else '[ ]'
+            print(i+1, sts, t['nome'])
             
-            total = len(tarefas_dia)
-            concluidas = sum(t['sit'] for t in self.t.tarefas)
-            print("\nTotal de tarefas para hoje: ", total)
-            print("Total de tarefas concluídas: ", concluidas)
-            print("Total de tarefas pendentes: ", total-concluidas)
-            print('='*23)
-            return
-                    
-        except(ValueError):
-            print("Formato inválido")
-            return
-
+            
+        total = len(tarefas_dia)
+        concluidas = sum(t['situacao'] for t in tarefas_dia)
+        print("\nTotal de tarefas para hoje: ", total)
+        print("Total de tarefas concluídas: ", concluidas)
+        print("Total de tarefas pendentes: ", total-concluidas)
+        print('='*23)
+        return
 
     

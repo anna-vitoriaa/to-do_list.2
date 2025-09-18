@@ -1,6 +1,4 @@
 from datetime import datetime
-from os import system as s
-from datetime import datetime 
 import utils as ut
 import database as db
 

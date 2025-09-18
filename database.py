@@ -3,7 +3,6 @@ conn = sqlite3.connect("To-do_list.db")
 conn.row_factory = sqlite3.Row
 crs = conn.cursor()
 
-crs.execute("DROP TABLE IF EXISTS Tarefas")
 crs.execute('''
     CREATE TABLE IF NOT EXISTS Tarefas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
