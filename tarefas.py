@@ -23,8 +23,8 @@ class Tarefas:
     
     def mostrar_tarefas(self):
         print('='*23)
-        for i, v in enumerate(self.tarefas):
-            sts = '[x]' if v['sit'] else '[ ]'
+        for i, v in enumerate(db.listar_tarefas_db()):
+            sts = '[x]' if v['situacao'] else '[ ]'
             print(i+1, sts, v['nome'])
         print('='*23)
 
@@ -40,14 +40,5 @@ class Tarefas:
         try:
             self.tarefas[id] = {'nome': nome, 'data': data, 'sit': self.situacao}
             return "Tarefa editada"
-        except(ValueError):
-            print("Inválido")
-
-    def des_marcar(self, id):
-        try:
-            if self.tarefas[id]['sit'] == False:
-                self.tarefas[id]['sit'] = True
-            else:
-                self.tarefas[id]['sit'] = False
         except(ValueError):
             print("Inválido")

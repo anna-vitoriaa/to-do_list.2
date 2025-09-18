@@ -11,7 +11,6 @@ def validar_data(data_str):
         return None
     
 def validar_id(id, lista):
-    id = id-1
-    if 0 <= id < len(lista):
+    if 0 < id <= len(lista):
         return id
     else: return None

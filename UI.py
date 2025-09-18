@@ -1,25 +1,27 @@
 import tarefas
 import utils 
+import database as db
 from datetime import datetime as dt
 
 class Ui:
     t = tarefas.Tarefas()
 
-    def print_marcar(self):
-        try: 
-            p = int(input('Qual tarefa quer marcar? '))
-            id = utils.validar_id(p, self.t.tarefas)
-            if id is not None:
-                self.t.des_marcar(id)
-                return
+    def print_marcar(self):       
+        p = int(input('Qual tarefa quer marcar? '))
+        id = utils.validar_id(p, db.listar_tarefas_db())
+        print(id)
+        print(db.listar_tarefas_db())
+        print(len(db.listar_tarefas_db()))
+        if id is None:
             print('Id inválido')
-        except(ValueError):
-            print("Tarefa não encontrada")
+        else: 
+            db.des_marcar_db(id)
+        return
 
     def print_criar(self):
         nome = input("Qual o nome da tarefa? ")
         data_str = input("Qual a data? (dd/mm/yyyy ou hoje): ")
-        print(self.t.criar_tarefa(nome= nome, data= data_str))
+        print(self.t.criar_tarefa(nome= nome, data_str = data_str))
         return
     
     def print_editar(self):

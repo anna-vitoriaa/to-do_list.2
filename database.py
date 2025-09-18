@@ -1,7 +1,9 @@
 import sqlite3
 conn = sqlite3.connect("To-do_list.db")
+conn.row_factory = sqlite3.Row
 crs = conn.cursor()
 
+crs.execute("DROP TABLE IF EXISTS Tarefas")
 crs.execute('''
     CREATE TABLE IF NOT EXISTS Tarefas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -13,4 +15,19 @@ conn.commit()
 
 def criar_tarefa_db(nome, data_str):
     crs.execute("INSERT INTO Tarefas (nome, data) VALUES (?, ?)", (nome, data_str))
+    conn.commit()
+
+def listar_tarefas_db():
+    tab = crs.execute('SELECT * FROM Tarefas')
+    return tab.fetchall()
+
+def des_marcar_db(id):
+    crs.execute("SELECT situacao FROM Tarefas WHERE id = ?", (id,))
+    sit = crs.fetchone()
+    if sit is None: 
+        print('Tarefa não encontrada')
+        return
+    new_sit = 1 if sit[0] == 0 else 0
+
+    crs.execute("UPDATE Tarefas SET situacao = ? WHERE id = ?", (new_sit, id))
     conn.commit()
