@@ -30,15 +30,14 @@ class Tarefas:
 
     def remover_tarefa(self, id):
         try:
-            t = self.tarefas[id]
-            self.tarefas.remove(t)
+            db.remover_tarefas_db(id)
             return 'Tarefa removida'
         except(ValueError):
             print("Inválido")
     
     def editar_tarefa(self, id, nome, data):
         try:
-            self.tarefas[id] = {'nome': nome, 'data': data, 'sit': self.situacao}
+            db.editar_tarefas_db(id, nome, data)
             return "Tarefa editada"
         except(ValueError):
             print("Inválido")

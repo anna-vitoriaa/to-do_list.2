@@ -27,20 +27,25 @@ class Ui:
     def print_editar(self):
         p = int(input('Qual tarefa quer editar? '))
         try:
-            id = utils.validar_id(p, self.t.tarefas)
+            id = utils.validar_id(p, db.listar_tarefas_db())
             if id is not None:
-                print(self.t.tarefas[id]['data'])
-                nome = self.t.tarefas[id]['nome']
-                data = self.t.tarefas[id]['data']
+                print(db.listar_tarefas_db()[id-1]['data'])
+                nome = db.listar_tarefas_db()[id-1]['nome']
+                data = db.listar_tarefas_db()[id-1]['data']
 
-                print('\nNome: ', nome, '\nData: ', data.strftime('%d/%m/%Y'))
+                print('\nNome: ', nome, '\nData: ', data)
                 o = int(input("\n1\tNome\n2\tData\nO que você quer mudar? "))
                 if 0 < o < 3:
                     if o == 1: nome = input("Novo nome: ")
                     else: 
-                        data_str = input("Nova data: ")
-                        data = dt.strptime(data_str, '%d/%m/%Y')
-            else: print("Opção inválida")
+                        nova_data = input("Nova data: ")
+                        data = utils.validar_data(nova_data)
+                        if data == None:
+                            print('Formato de data inválido')
+                            return
+            else: 
+                print("Opção inválida")
+                return
 
             print(self.t.editar_tarefa(id= id, nome= nome, data= data))
             return
@@ -49,13 +54,11 @@ class Ui:
     
     def print_deletar(self):
         o = int(input('Qual tarefa quer remover? '))
-        try:
-            id = utils.validar_id(o, self.t.tarefas)
-            if id is not None:
-                self.t.remover_tarefa(id= id)
-            return
-        except(ValueError):
-            print("Tarefa não encontrada")
+        id = utils.validar_id(o, db.listar_tarefas_db())
+        if id is not None: print(self.t.remover_tarefa(id= id))
+        else: print("Tarefa não encontrada")
+        return
+
 
 
     def print_menu(self):

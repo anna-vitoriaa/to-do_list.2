@@ -31,3 +31,11 @@ def des_marcar_db(id):
 
     crs.execute("UPDATE Tarefas SET situacao = ? WHERE id = ?", (new_sit, id))
     conn.commit()
+
+def remover_tarefas_db(id):
+    crs.execute("DELETE FROM Tarefas WHERE id = ?", (id,))
+    conn.commit()
+
+def editar_tarefas_db(id, nome, data):
+    crs.execute("UPDATE Tarefas SET nome = ?, data = ? WHERE id = ?", (nome, data, id))
+    conn.commit()
